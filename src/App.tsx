@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import Header from "./Header";
+import FilteredWater from "./Filter";
+import WaterBucket from "./WaterBucket";
 
 function App() {
-  const [count, setCount] = useState(0)
+  let [waterImage, setWaterImage] = useState<boolean>(false);
+
+  const handleOnClick = () => {
+    let filteredWater: string[] = FilteredWater(water, contaminates);
+    setWater(filteredWater);
+
+    setWaterImage(true);
+  };
+
+  const [water, setWater] = useState<string[]>([
+    "chlorine",
+    "salt",
+    "dirt",
+    "calcite",
+    "uranium",
+    "rubber",
+  ]);
+
+  let contaminates: string[] = ["dirt", "uranium", "rubber"];
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div>
+      <Header />
+      <p className="click">Click the machine to filter the water.</p>
+      <div className="button">
+        <button onClick={handleOnClick}>
+          <img src="water-filter.jpg" alt="machine" />
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <>
+        <div className="result">
+          {waterImage && (
+            <img className="bucket" src="water-bucket.png" alt="Water Bucket" />
+          )}
+          <WaterBucket water={water} />
+        </div>
+      </>
+    </div>
+  );
 }
 
-export default App
+export default App;
